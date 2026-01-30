@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YouTube Lite Shorts</title>
+
+<style>
+body{
+  margin:0;
+  background:#000;
+  font-family:system-ui;
+}
+
+.reel{
+  height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.yt-lite{
+  width:100%;
+  max-width:420px;
+  aspect-ratio:9/16;
+  background:#000;
+  position:relative;
+  overflow:hidden;
+  border-radius:14px;
+}
+
+.yt-lite img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.play{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  font-size:60px;
+  color:white;
+  opacity:.9;
+}
+</style>
+</head>
+
+<body>
+
+<div class="reel">
+  <div class="yt-lite"
+    data-id="I8NOY-Q8JsE">
+    <img src="https://i.ytimg.com/vi/I8NOY-Q8JsE/hqdefault.jpg">
+    <div class="play">▶</div>
+  </div>
+</div>
+
+<script>
+const observer = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    const box = e.target;
+
+    if(e.isIntersecting){
+      if(!box.querySelector("iframe")){
+        const id = box.dataset.id;
+        box.innerHTML =
+          `<iframe
+            src="https://www.youtube.com/embed/${id}?autoplay=1&mute=1&playsinline=1"
+            frameborder="0"
+            allow="autoplay; encrypted-media"
+            allowfullscreen
+            style="width:100%;height:100%">
+          </iframe>`;
+      }
+    }else{
+      box.innerHTML = `
+        <img src="https://i.ytimg.com/vi/${box.dataset.id}/hqdefault.jpg">
+        <div class="play">▶</div>
+      `;
+    }
+  });
+},{threshold:0.6});
+
+document.querySelectorAll(".yt-lite").forEach(v=>{
+  observer.observe(v);
+});
+</script>
+
+</body>
+</html>
