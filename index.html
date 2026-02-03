@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>BharatVerse — BV Channel Reels</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:system-ui}
+body{background:#000;color:#fff}
+
+/* ===== HEADER ===== */
+.header{
+text-align:center;
+padding:18px;
+font-size:22px;
+font-weight:800;
+background:linear-gradient(90deg,#fff9c4,#ffe082);
+color:#000;
+box-shadow:0 0 30px rgba(255,193,7,.6);
+}
+
+/* ===== REEL WRAPPER ===== */
+.reel-wrapper{
+display:flex;
+justify-content:center;
+align-items:center;
+height:calc(100vh - 130px);
+padding:10px;
+}
+
+/* ===== REEL FRAME ===== */
+.reel-frame{
+position:relative;
+width:100%;
+max-width:420px;
+aspect-ratio:9/16;
+border-radius:28px;
+overflow:hidden;
+background:#000;
+border:2px solid #ffd54f;
+box-shadow:
+0 0 40px rgba(255,193,7,.6),
+0 0 90px rgba(255,235,59,.5);
+}
+
+/* ===== TELEGRAM EMBED FIX ===== */
+.reel-frame iframe{
+position:absolute;
+top:50%;
+left:50%;
+width:120%;
+height:120%;
+transform:translate(-50%,-50%) scale(1.05);
+border:none;
+}
+
+/* ===== BOTTOM NAV ===== */
+.bottom-bar{
+position:fixed;
+bottom:0;left:0;right:0;
+height:65px;
+background:#fff;
+display:flex;
+justify-content:space-around;
+align-items:center;
+border-top:1px solid #ddd;
+}
+
+.bottom-btn{
+font-size:16px;
+font-weight:700;
+color:#1a73e8;
+cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">BV Channel Reels</div>
+
+<div class="reel-wrapper">
+  <div class="reel-frame">
+    <iframe
+      src="https://t.me/sajansingh63747/5?embed=1"
+      allowfullscreen
+      loading="lazy">
+    </iframe>
+  </div>
+</div>
+
+<div class="bottom-bar">
+  <div class="bottom-btn">Home</div>
+  <div class="bottom-btn">Reels</div>
+</div>
+
+</body>
+</html>
