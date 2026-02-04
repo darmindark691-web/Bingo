@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>BharatVerse — Bharat Search Hub</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:system-ui}
+body{background:#fff;color:#202124}
+
+/* ===== HOME ===== */
+.container{text-align:center;margin-top:90px;padding:0 16px}
+.logo-box{display:flex;justify-content:center;margin-bottom:22px}
+.logo{
+width:160px;height:160px;border-radius:50%;
+background:#e8f0fe;
+box-shadow:0 0 40px rgba(26,115,232,.35),0 0 90px rgba(26,115,232,.18);
+animation:spin 8s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.brand-title{font-size:40px;font-weight:600}
+.brand-sub{font-size:14px;color:#5f6368;margin-bottom:26px}
+
+/* ===== REELS ===== */
+#postsScreen{
+display:none;
+padding-top:70px;
+padding-bottom:140px;
+}
+
+.posts-header{
+max-width:520px;
+margin:0 auto 10px;
+padding:14px;
+border-radius:22px;
+background:rgba(255,255,255,.9);
+font-size:22px;
+font-weight:800;
+box-shadow:0 0 30px rgba(255,193,7,.45);
+text-align:center;
+}
+
+/* ===== FRAME ===== */
+.video-frame{
+position:relative;
+margin:0 auto;
+width:100%;
+max-width:500px;
+height:calc(100vh - 300px);
+border-radius:28px;
+overflow:hidden;
+background:#000;
+border:2px solid #ffd54f;
+box-shadow:
+0 0 40px rgba(255,193,7,.6),
+0 0 90px rgba(255,235,59,.45);
+}
+
+/* ===== TELEGRAM LOGO (TOP) ===== */
+.tg-logo{
+position:absolute;
+top:10px;
+left:10px;
+z-index:10;
+width:42px;
+height:42px;
+border-radius:50%;
+background:#229ED9;
+display:flex;
+align-items:center;
+justify-content:center;
+box-shadow:0 4px 12px rgba(0,0,0,.35);
+}
+
+.tg-logo svg{
+width:22px;
+height:22px;
+fill:#fff;
+}
+
+/* ===== TELEGRAM EMBED ===== */
+.tg-wrapper{
+position:absolute;
+inset:0;
+overflow:hidden;
+}
+
+.tg-wrapper iframe{
+position:absolute;
+top:50%;
+left:50%;
+width:120%;
+height:120%;
+border:none;
+transform:translate(-50%, -50%) scale(1.05);
+}
+
+/* ===== ACTION BUTTONS ===== */
+.action-bar{
+max-width:500px;
+margin:14px auto 0;
+display:flex;
+gap:12px;
+}
+
+.action-bar a,
+.action-bar button{
+flex:1;
+padding:12px 0;
+border-radius:22px;
+font-weight:700;
+font-size:14px;
+border:none;
+cursor:pointer;
+text-align:center;
+}
+
+/* Open Telegram */
+.open-tg{
+background:#229ED9;
+color:#fff;
+text-decoration:none;
+box-shadow:0 4px 14px rgba(34,158,217,.45);
+}
+
+/* Next */
+.next-btn{
+background:#ffd54f;
+color:#333;
+box-shadow:0 4px 14px rgba(255,193,7,.45);
+}
+
+/* ===== BOTTOM NAV ===== */
+.bottom-bar{
+position:fixed;
+bottom:0;left:0;right:0;
+height:65px;
+background:#fff;
+border-top:1px solid #ddd;
+display:flex;
+justify-content:space-around;
+align-items:center;
+z-index:999;
+}
+.bottom-btn{
+font-weight:600;
+color:#1a73e8;
+cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<!-- HOME -->
+<div id="newsScreen">
+  <div class="container">
+    <div class="logo-box"><div class="logo"></div></div>
+    <div class="brand-title">BharatVerse</div>
+    <div class="brand-sub">Bharat Search Hub</div>
+  </div>
+</div>
+
+<!-- REELS -->
+<div id="postsScreen">
+  <div class="posts-header">BV Channel Reels</div>
+
+  <div class="video-frame">
+
+    <!-- TELEGRAM LOGO -->
+    <div class="tg-logo">
+      <svg viewBox="0 0 24 24">
+        <path d="M9.93 14.91l-.39 5.5c.56 0 .8-.24 1.09-.53l2.62-2.5 5.43 3.97c.99.55 1.69.26 1.95-.92l3.54-16.62h.01c.31-1.44-.52-2-1.46-1.65L1.69 9.56c-1.4.55-1.38 1.34-.24 1.7l5.58 1.74L19.97 5.1c.66-.44 1.27-.2.77.24"/>
+      </svg>
+    </div>
+
+    <!-- EMBED -->
+    <div class="tg-wrapper">
+      <iframe
+        src="https://t.me/sajansingh63747/5?embed=1"
+        allowfullscreen
+        allow="autoplay; fullscreen">
+      </iframe>
+    </div>
+  </div>
+
+  <!-- BUTTONS -->
+  <div class="action-bar">
+    <a class="open-tg" href="https://t.me/sajansingh63747/5" target="_blank">
+      Open in Telegram
+    </a>
+    <button class="next-btn" onclick="alert('Next reel coming soon')">
+      Next ▶
+    </button>
+  </div>
+</div>
+
+<!-- NAV -->
+<div class="bottom-bar">
+  <div class="bottom-btn" onclick="showNews()">Home</div>
+  <div class="bottom-btn" onclick="showPosts()">Reels</div>
+</div>
+
+<p style="font-size:12px;color:#777;text-align:center;margin:10px">
+This website is not affiliated with Telegram.
+Videos are embedded from public Telegram channels.
+</p>
+
+<script>
+function showNews(){
+  newsScreen.style.display="block";
+  postsScreen.style.display="none";
+}
+function showPosts(){
+  newsScreen.style.display="none";
+  postsScreen.style.display="block";
+}
+</script>
+
+</body>
+</html>
