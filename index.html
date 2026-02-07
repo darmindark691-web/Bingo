@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>BharatVerse — Bharat Search Hub</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:system-ui}
+body{background:#fff;color:#202124}
+
+/* ===== HOME ===== */
+.container{text-align:center;margin-top:90px;padding:0 16px}
+.logo-box{display:flex;justify-content:center;margin-bottom:22px}
+.logo{
+width:170px;height:170px;border-radius:50%;
+animation:spin 8s linear infinite;
+box-shadow:0 8px 30px rgba(66,133,244,.35)
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.brand-title{font-size:40px;font-weight:600}
+.brand-sub{font-size:14px;color:#5f6368;margin-bottom:26px}
+
+/* ===== SEARCH ===== */
+.search-box{
+display:flex;max-width:560px;margin:auto;
+border:1px solid #dfe1e5;border-radius:40px;
+padding:6px 12px;
+box-shadow:0 1px 6px rgba(32,33,36,.28)
+}
+.search-box input{flex:1;border:none;outline:none;font-size:16px;padding:10px}
+.search-box button{border:none;background:none;font-size:18px}
+
+/* ===== MENU ===== */
+.menu-btn{position:fixed;top:15px;left:15px;font-size:26px;cursor:pointer;z-index:1000}
+.side-menu{
+position:fixed;top:0;left:-280px;width:280px;height:100%;
+background:#fff;border-right:1px solid #ddd;
+transition:.3s;padding:12px;overflow:auto;z-index:999
+}
+.side-menu.open{left:0}
+.side-menu h3{margin:14px 0 6px;font-size:14px}
+.side-menu button{
+display:block;width:100%;padding:6px;border:none;
+background:none;text-align:left;cursor:pointer;color:#1a73e8
+}
+
+/* ===== RESEARCH SCREEN ===== */
+#research{
+display:none;
+padding:80px 14px 100px;
+}
+
+/* Top title frame */
+.research-title{
+max-width:720px;
+margin:0 auto 18px;
+padding:18px;
+border-radius:22px;
+text-align:center;
+font-size:22px;
+font-weight:800;
+background:#fff;
+border:2px solid #1a73e8;
+box-shadow:
+0 0 25px rgba(26,115,232,.55),
+0 0 60px rgba(26,115,232,.35);
+}
+
+/* Papers frame */
+.papers-frame{
+max-width:720px;
+margin:0 auto;
+padding:14px;
+border-radius:26px;
+background:#fff;
+border:2px solid #1a73e8;
+box-shadow:
+0 0 25px rgba(26,115,232,.45),
+0 0 80px rgba(26,115,232,.25);
+}
+
+/* Paper item */
+.paper{
+padding:12px;
+border-bottom:1px solid #e3e7ee;
+}
+.paper:last-child{border-bottom:none}
+.paper a{
+text-decoration:none;
+color:#1a73e8;
+font-weight:600;
+}
+
+/* ===== REELS ===== */
+#reels{display:none;padding-top:70px;padding-bottom:140px}
+
+/* ===== BOTTOM BAR ===== */
+.bottom-bar{
+position:fixed;bottom:0;left:0;right:0;
+height:65px;background:#fff;border-top:1px solid #ddd;
+display:flex;justify-content:space-around;align-items:center;
+z-index:1000
+}
+.bottom-btn{font-weight:600;color:#1a73e8;cursor:pointer}
+</style>
+</head>
+
+<body>
+
+<div class="menu-btn" onclick="toggleMenu()">☰</div>
+
+<div class="side-menu" id="menu">
+<h3>arXiv Research</h3>
+<button onclick="openResearch('cs.AI','AI')">AI</button>
+<button onclick="openResearch('cs.LG','Machine Learning')">Machine Learning</button>
+<button onclick="openResearch('cs.CV','Computer Vision')">Computer Vision</button>
+<button onclick="openResearch('cs.CL','NLP')">NLP</button>
+<button onclick="openResearch('cs.CR','Security')">Security</button>
+<button onclick="openResearch('cs.DS','Data Structures')">Data Structures</button>
+<button onclick="openResearch('cs.SE','Software Engineering')">Software Engineering</button>
+<button onclick="openResearch('math.OC','Optimization')">Optimization</button>
+<button onclick="openResearch('math.PR','Probability')">Probability</button>
+<button onclick="openResearch('stat.ML','Stat ML')">Stat ML</button>
+<button onclick="openResearch('physics.gen-ph','Physics')">Physics</button>
+</div>
+
+<!-- HOME -->
+<main class="container" id="home">
+<div class="logo-box"><img src="logo.png" class="logo"></div>
+<h1 class="brand-title">BharatVerse</h1>
+<p class="brand-sub">Bharat Search Hub</p>
+<div class="search-box">
+<input placeholder="Search India & World Knowledge…">
+<button>🔍</button>
+</div>
+</main>
+
+<!-- RESEARCH -->
+<section id="research">
+<div class="research-title" id="researchTitle"></div>
+<div class="papers-frame" id="papersBox">
+<div class="paper">Loading…</div>
+</div>
+</section>
+
+<!-- REELS -->
+<section id="reels"></section>
+
+<div class="bottom-bar">
+<div class="bottom-btn" onclick="goHome()">Home</div>
+<div class="bottom-btn" onclick="openReels()">Reels</div>
+</div>
+
+<script>
+const home = document.getElementById("home")
+const research = document.getElementById("research")
+const reels = document.getElementById("reels")
+const menu = document.getElementById("menu")
+const researchTitle = document.getElementById("researchTitle")
+const papersBox = document.getElementById("papersBox")
+
+const WORKER = "https://crimson-frost-ed87.darmindark691.workers.dev"
+
+function toggleMenu(){ menu.classList.toggle("open") }
+
+function goHome(){
+home.style.display="block"
+research.style.display="none"
+reels.style.display="none"
+menu.classList.remove("open")
+}
+
+function openReels(){
+home.style.display="none"
+research.style.display="none"
+reels.style.display="block"
+menu.classList.remove("open")
+}
+
+async function openResearch(cat,label){
+home.style.display="none"
+reels.style.display="none"
+research.style.display="block"
+menu.classList.remove("open")
+
+researchTitle.textContent = `BharatVerse ${label} Research Papers`
+papersBox.innerHTML = `<div class="paper">Loading research papers…</div>`
+
+try{
+const r = await fetch(`${WORKER}?cat=${cat}&page=0`)
+const d = await r.json()
+papersBox.innerHTML = ""
+d.results.forEach(p=>{
+papersBox.innerHTML += `
+<div class="paper">
+<a target="_blank" href="${p.pdf}">📄 ${p.title}</a>
+</div>`
+})
+}catch(e){
+papersBox.innerHTML = `<div class="paper">Temporary issue loading papers</div>`
+}
+}
+</script>
+
+</body>
+</html>
