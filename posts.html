@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>BharatVerse — Instagram Embedded Posts</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:system-ui}
+body{background:#fff;color:#202124;padding-bottom:120px}
+
+/* ===== TOP TITLE FRAME ===== */
+.title-frame{
+max-width:720px;
+margin:30px auto 24px;
+padding:18px;
+border-radius:24px;
+text-align:center;
+font-size:26px;
+font-weight:800;
+color:#0f9d58;
+background:#f4fff9;
+border:2px solid #0f9d58;
+box-shadow:0 0 35px rgba(15,157,88,.45);
+}
+
+/* ===== POSTS WRAPPER ===== */
+.posts-wrapper{
+display:flex;
+flex-direction:column;
+gap:26px;
+padding:0 14px;
+}
+
+/* ===== POST FRAME ===== */
+.post-frame{
+position:relative;
+margin:auto;
+width:100%;
+max-width:520px;
+height:calc(100vh - 280px);
+border-radius:28px;
+overflow:hidden;
+background:#000;
+border:2px solid #ffd54f;
+box-shadow:
+0 0 40px rgba(255,193,7,.6),
+0 0 90px rgba(255,235,59,.45);
+display:flex;
+align-items:center;
+justify-content:center;
+color:#fff;
+font-size:18px;
+font-weight:600;
+}
+
+/* Placeholder content */
+.post-frame span{
+opacity:.85;
+}
+
+/* ===== NEXT BUTTON ===== */
+.next-btn{
+margin:30px auto 10px;
+display:block;
+padding:14px 36px;
+border-radius:30px;
+border:none;
+font-size:16px;
+font-weight:800;
+cursor:pointer;
+background:#ffd54f;
+color:#333;
+box-shadow:0 6px 18px rgba(255,193,7,.45);
+}
+
+/* ===== PLUS BUTTON ===== */
+.plus-btn{
+position:fixed;
+bottom:22px;
+left:50%;
+transform:translateX(-50%);
+width:64px;
+height:64px;
+border-radius:50%;
+background:#1a73e8;
+color:#fff;
+font-size:34px;
+display:flex;
+align-items:center;
+justify-content:center;
+cursor:pointer;
+box-shadow:0 8px 24px rgba(26,115,232,.45);
+}
+
+/* ===== DISCLAIMER ===== */
+.disclaimer{
+text-align:center;
+font-size:12px;
+color:#777;
+margin-top:24px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- TITLE -->
+<div class="title-frame">
+Instagram Embedded Posts
+</div>
+
+<!-- POSTS -->
+<div class="posts-wrapper">
+
+  <div class="post-frame">
+    <span>User Post Frame 1</span>
+  </div>
+
+  <div class="post-frame">
+    <span>User Post Frame 2</span>
+  </div>
+
+</div>
+
+<!-- NEXT PAGE -->
+<button class="next-btn" onclick="nextPage()">
+Next Page ▶
+</button>
+
+<!-- PLUS ICON -->
+<div class="plus-btn" onclick="alert('Post submission coming soon')">
++
+</div>
+
+<!-- DISCLAIMER -->
+<p class="disclaimer">
+This platform only embeds public posts.  
+Not affiliated with Instagram.
+</p>
+
+<script>
+function nextPage(){
+  alert("Next page logic will load more posts here");
+}
+</script>
+
+</body>
+</html>
