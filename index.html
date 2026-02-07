@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>BharatVerse — Bharat Search Hub</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:system-ui}
+body{background:#fff;color:#202124;overflow-x:hidden}
+
+/* ========== COMMON ========== */
+.frame{
+border-radius:26px;
+padding:16px;
+margin:14px auto;
+max-width:520px;
+}
+
+/* Glow themes */
+.blue{box-shadow:0 0 30px rgba(26,115,232,.5)}
+.green{box-shadow:0 0 30px rgba(52,168,83,.5)}
+.orange{box-shadow:0 0 30px rgba(251,188,5,.6)}
+
+/* ========== HOME ========== */
+#home{text-align:center;padding-top:90px}
+.logo{
+width:160px;height:160px;border-radius:50%;
+animation:spin 8s linear infinite;
+box-shadow:0 8px 30px rgba(66,133,244,.35)
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+.brand-title{font-size:40px;font-weight:600}
+.brand-sub{font-size:14px;color:#5f6368}
+
+/* ========== MENU ========== */
+.menu-btn{position:fixed;top:15px;left:15px;font-size:26px;z-index:1000}
+.side-menu{
+position:fixed;top:0;left:-280px;width:280px;height:100%;
+background:#fff;border-right:1px solid #ddd;
+transition:.3s;padding:12px;overflow:auto;z-index:999
+}
+.side-menu.open{left:0}
+.side-menu h3{margin:14px 0 6px}
+.side-menu button{
+display:block;width:100%;padding:6px;
+background:none;border:none;text-align:left;
+color:#1a73e8;cursor:pointer
+}
+
+/* ========== RESEARCH ========== */
+#research{display:none;padding:20px}
+.paper{padding:10px;border-bottom:1px solid #eee}
+.paper a{text-decoration:none;color:#1a73e8}
+
+/* ========== REELS ========== */
+#reels{display:none;padding:80px 0 140px}
+
+/* ========== POSTS ========== */
+#posts,#uploadPost{display:none;padding:80px 0 120px}
+.post-box{padding:12px;border-bottom:1px solid #ddd}
+.plus{
+position:fixed;bottom:90px;right:18px;
+width:56px;height:56px;border-radius:50%;
+background:#8ab4f8;color:#fff;
+display:flex;align-items:center;justify-content:center;
+font-size:32px;box-shadow:0 0 25px rgba(138,180,248,.8);
+cursor:pointer
+}
+
+/* ========== BOTTOM NAV ========== */
+.bottom-bar{
+position:fixed;bottom:0;left:0;right:0;height:65px;
+display:flex;justify-content:space-around;align-items:center;
+border-top:1px solid #ddd;background:#fff
+}
+.bottom-bar div{font-weight:600;color:#1a73e8;cursor:pointer}
+</style>
+</head>
+
+<body>
+
+<div class="menu-btn" onclick="toggleMenu()">☰</div>
+
+<div class="side-menu" id="menu">
+<h3>arXiv</h3>
+<button onclick="openResearch('AI','cs.AI')">AI</button>
+<button onclick="openResearch('ML','cs.LG')">Machine Learning</button>
+<button onclick="openResearch('CV','cs.CV')">Computer Vision</button>
+<button onclick="openResearch('NLP','cs.CL')">NLP</button>
+<button onclick="openResearch('Security','cs.CR')">Security</button>
+<button onclick="openResearch('DS','cs.DS')">Data Structures</button>
+<button onclick="openResearch('SE','cs.SE')">Software Eng</button>
+<button onclick="openResearch('Math','math.OC')">Optimization</button>
+<button onclick="openResearch('Prob','math.PR')">Probability</button>
+<button onclick="openResearch('StatML','stat.ML')">Stat ML</button>
+<button onclick="openResearch('Physics','physics.gen-ph')">Physics</button>
+
+<h3>UPSC</h3>
+<button onclick="alert('UPSC data via GitHub RAW')">PIB</button>
+</div>
+
+<!-- HOME -->
+<section id="home">
+<img src="logo.png" class="logo">
+<div class="brand-title">BharatVerse</div>
+<div class="brand-sub">Bharat Search Hub</div>
+</section>
+
+<!-- RESEARCH -->
+<section id="research">
+<div class="frame blue" id="researchTitle"></div>
+<div class="frame blue" id="paperList"></div>
+</section>
+
+<!-- REELS -->
+<section id="reels">
+<div class="frame blue">BV Channel Reels</div>
+<div class="frame blue">
+<iframe src="https://t.me/sajansingh63747/5?embed=1"
+style="width:100%;height:60vh;border:none"></iframe>
+</div>
+</section>
+
+<!-- POSTS -->
+<section id="posts">
+<div class="frame green">Instagram Posts</div>
+<div class="frame green" id="postList"></div>
+<button onclick="nextPosts()">Next</button>
+<div class="plus" onclick="openUpload()">+</div>
+</section>
+
+<!-- UPLOAD -->
+<section id="uploadPost">
+<div class="frame orange">Upload Post Link</div>
+<div class="frame orange">
+<input id="postInput" placeholder="Paste post URL" style="width:100%;padding:10px">
+<button onclick="savePost()">Save</button>
+</div>
+</section>
+
+<div class="bottom-bar">
+<div onclick="show('home')">Home</div>
+<div onclick="show('reels')">Reels</div>
+<div onclick="show('posts')">Posts</div>
+</div>
+
+<script>
+const WORKER="https://crimson-frost-ed87.darmindark691.workers.dev"
+let page=0
+
+function toggleMenu(){menu.classList.toggle("open")}
+function show(id){
+["home","research","reels","posts","uploadPost"]
+.forEach(s=>document.getElementById(s).style.display="none")
+document.getElementById(id).style.display="block"
+menu.classList.remove("open")
+}
+
+/* Research */
+async function openResearch(name,cat){
+show("research")
+researchTitle.innerHTML=`BharatVerse ${name} Research Papers`
+paperList.innerHTML="Loading…"
+const r=await fetch(`${WORKER}?cat=${cat}&page=0`)
+const d=await r.json()
+paperList.innerHTML=""
+d.results.forEach(p=>{
+paperList.innerHTML+=`<div class="paper">
+<a href="${p.pdf}" target="_blank">${p.title}</a>
+</div>`
+})
+}
+
+/* Posts */
+function getPosts(){return JSON.parse(localStorage.getItem("posts")||"[]")}
+function savePost(){
+const v=postInput.value.trim()
+if(!v)return
+const p=getPosts()
+p.unshift(v)
+localStorage.setItem("posts",JSON.stringify(p))
+postInput.value=""
+show("posts")
+renderPosts()
+}
+function renderPosts(){
+postList.innerHTML=""
+getPosts().forEach(u=>{
+postList.innerHTML+=`<div class="post-box">${u}</div>`
+})
+}
+function openUpload(){show("uploadPost")}
+function nextPosts(){alert("Pagination logic add kar sakte hain")}
+renderPosts()
+</script>
+
+</body>
+</html>
