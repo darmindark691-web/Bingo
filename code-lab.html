@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>BharatVerse Code Nexus</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:system-ui}
+body{
+  background:#ffffff;
+  color:#0b1b3a;
+  padding:30px 16px 80px;
+}
+
+/* ===== TOP FRAME ===== */
+.header-frame{
+  max-width:900px;
+  margin:0 auto 40px;
+  padding:26px;
+  text-align:center;
+  border-radius:26px;
+  background:rgba(240,246,255,.85);
+  border:2px solid #2f7cff;
+  box-shadow:0 0 45px rgba(47,124,255,.45);
+  backdrop-filter:blur(14px);
+}
+.header-frame h1{
+  font-size:32px;
+  font-weight:800;
+  letter-spacing:.5px;
+  color:#123c8f;
+}
+
+/* ===== CATEGORY LIST ===== */
+.category-wrapper{
+  max-width:900px;
+  margin:auto;
+  display:flex;
+  flex-direction:column;
+  gap:28px;
+}
+
+/* ===== CATEGORY FRAME ===== */
+.category-card{
+  padding:26px;
+  border-radius:26px;
+  background:rgba(255,255,255,.9);
+  border:2px solid rgba(47,124,255,.65);
+  box-shadow:
+    0 0 38px rgba(47,124,255,.35),
+    inset 0 0 18px rgba(255,255,255,.6);
+  backdrop-filter:blur(12px);
+  cursor:pointer;
+  transition:.3s;
+}
+.category-card:hover{
+  transform:translateY(-4px);
+  box-shadow:0 0 55px rgba(47,124,255,.65);
+}
+
+/* ===== CATEGORY TITLE ===== */
+.category-title{
+  font-size:22px;
+  font-weight:700;
+  margin-bottom:14px;
+  color:#0f2f6d;
+}
+
+/* ===== PLATFORM LIST ===== */
+.platforms{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+}
+.platform{
+  padding:8px 14px;
+  border-radius:18px;
+  font-size:13px;
+  font-weight:600;
+  background:rgba(47,124,255,.12);
+  border:1px solid rgba(47,124,255,.5);
+  box-shadow:0 0 14px rgba(47,124,255,.35);
+  color:#0f2f6d;
+}
+
+/* ===== FOOTER ===== */
+.footer-note{
+  text-align:center;
+  margin-top:50px;
+  font-size:12px;
+  color:#5f6f8f;
+}
+</style>
+</head>
+
+<body>
+
+<!-- TOP -->
+<div class="header-frame">
+  <h1>BharatVerse Code Nexus</h1>
+</div>
+
+<!-- CODE CATEGORIES -->
+<div class="category-wrapper">
+
+  <div class="category-card" onclick="openCategory('ai')">
+    <div class="category-title">Artificial Intelligence Systems</div>
+    <div class="platforms">
+      <div class="platform">GitHub</div>
+      <div class="platform">GitLab</div>
+      <div class="platform">Gitea</div>
+      <div class="platform">Gitee</div>
+      <div class="platform">Bitbucket</div>
+    </div>
+  </div>
+
+  <div class="category-card" onclick="openCategory('robotics')">
+    <div class="category-title">Robotics & Autonomous Systems</div>
+    <div class="platforms">
+      <div class="platform">ROS / ROS2</div>
+      <div class="platform">GitHub</div>
+      <div class="platform">GitLab</div>
+      <div class="platform">Autonomous Drones</div>
+      <div class="platform">Industrial Robotics</div>
+    </div>
+  </div>
+
+  <div class="category-card" onclick="openCategory('cyber')">
+    <div class="category-title">Cybersecurity & Ethical Systems</div>
+    <div class="platforms">
+      <div class="platform">GitHub</div>
+      <div class="platform">GitLab</div>
+      <div class="platform">Gitea</div>
+      <div class="platform">Gitee</div>
+      <div class="platform">Bitbucket</div>
+    </div>
+  </div>
+
+  <div class="category-card" onclick="openCategory('web')">
+    <div class="category-title">Web, Backend & API Engineering</div>
+    <div class="platforms">
+      <div class="platform">GitHub</div>
+      <div class="platform">GitLab</div>
+      <div class="platform">Gitea</div>
+      <div class="platform">Gitee</div>
+      <div class="platform">Bitbucket</div>
+    </div>
+  </div>
+
+  <div class="category-card" onclick="openCategory('cloud')">
+    <div class="category-title">Cloud, DevOps & Infrastructure</div>
+    <div class="platforms">
+      <div class="platform">GitHub</div>
+      <div class="platform">GitLab</div>
+      <div class="platform">Gitea</div>
+      <div class="platform">Gitee</div>
+      <div class="platform">Bitbucket</div>
+    </div>
+  </div>
+
+  <div class="category-card" onclick="openCategory('data')">
+    <div class="category-title">Data Science & Analytics</div>
+    <div class="platforms">
+      <div class="platform">GitHub</div>
+      <div class="platform">GitLab</div>
+      <div class="platform">Gitea</div>
+      <div class="platform">Gitee</div>
+      <div class="platform">Bitbucket</div>
+    </div>
+  </div>
+
+  <div class="category-card" onclick="openCategory('opensource')">
+    <div class="category-title">Open Source & Research Frameworks</div>
+    <div class="platforms">
+      <div class="platform">GitHub</div>
+      <div class="platform">GitLab</div>
+      <div class="platform">Gitea</div>
+      <div class="platform">Gitee</div>
+      <div class="platform">Bitbucket</div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer-note">
+  Unified global code intelligence for AI & engineering
+</div>
+
+<script>
+function openCategory(type){
+  alert(
+    "Category selected: " + type +
+    "\n\nNext step:\n• Repo listing\n• Learning path\n• Skill roadmap"
+  );
+}
+</script>
+
+</body>
+</html>
