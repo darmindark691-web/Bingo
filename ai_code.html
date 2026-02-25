@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Machine Learning Projects</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:system-ui}
+body{background:#ffffff;color:#0b1220}
+
+.frame{
+  max-width:1100px;
+  margin:20px auto;
+  padding:22px;
+  border-radius:24px;
+  border:2px solid #2f7cff;
+  box-shadow:0 0 35px rgba(47,124,255,.55);
+  background:#fff;
+}
+
+.title{
+  font-size:28px;
+  font-weight:800;
+  text-align:center;
+}
+
+.content-frame{
+  max-width:1100px;
+  margin:20px auto;
+  padding:22px;
+  border-radius:24px;
+  border:2px solid #2f7cff;
+  box-shadow:0 0 40px rgba(47,124,255,.45);
+  background:#fff;
+  min-height:60vh;
+  overflow:auto;
+}
+
+.item{
+  padding:14px;
+  margin-bottom:12px;
+  border-radius:14px;
+  border:1.5px solid #2f7cff;
+  box-shadow:0 0 20px rgba(47,124,255,.25);
+  cursor:pointer;
+  transition:.2s;
+}
+.item:hover{
+  background:#f2f7ff;
+  box-shadow:0 0 30px rgba(47,124,255,.6);
+}
+
+pre{
+  white-space:pre-wrap;
+  word-break:break-word;
+  font-size:13px;
+  line-height:1.6;
+}
+
+.back{
+  display:inline-block;
+  margin-bottom:18px;
+  padding:8px 18px;
+  border-radius:20px;
+  background:#2f7cff;
+  color:#fff;
+  cursor:pointer;
+  box-shadow:0 0 20px rgba(47,124,255,.6);
+}
+
+.hidden{display:none}
+</style>
+</head>
+
+<body>
+
+<!-- REPO SCREEN -->
+<div id="repoScreen">
+  <div class="frame">
+    <div class="title">Machine Learning Projects</div>
+  </div>
+
+  <div class="content-frame" id="repoList">
+    Loading repositories...
+  </div>
+</div>
+
+<!-- FILE SCREEN -->
+<div id="fileScreen" class="hidden">
+  <div class="frame">
+    <div class="title">Project Files</div>
+  </div>
+
+  <div class="content-frame">
+    <div class="back" onclick="goRepos()">← Back</div>
+    <div id="fileList">Loading files...</div>
+  </div>
+</div>
+
+<!-- CODE SCREEN -->
+<div id="codeScreen" class="hidden">
+  <div class="frame">
+    <div class="title" id="codeTitle">File Code</div>
+  </div>
+
+  <div class="content-frame">
+    <div class="back" onclick="goFiles()">← Back</div>
+    <pre id="codeView">Loading code...</pre>
+  </div>
+</div>
+
+<script>
+
+const WORKER = "https://mute-sea-a86c.darmindark691.workers.dev";
+
+let currentRepo = "";
+let currentPath = "";
+
+/* ================= LOAD REPOS ================= */
+async function loadRepos(){
+  const box = document.getElementById("repoList");
+
+  try{
+    const res = await fetch(`${WORKER}?action=repos`);
+    const data = await res.json();
+
+    box.innerHTML = "";
+
+    if(!data.repos || data.repos.length===0){
+      box.innerHTML = "No repositories found in KV";
+      return;
+    }
+
+    data.repos.forEach(repo=>{
+      const div = document.createElement("div");
+      div.className="item";
+      div.textContent = repo;
+      div.onclick = ()=>openRepo(repo);
+      box.appendChild(div);
+    });
+
+  }catch(e){
+    box.innerHTML = "Failed to load repositories";
+  }
+}
+
+/* ================= OPEN REPO ================= */
+async function openRepo(repo){
+  currentRepo = repo;
+  currentPath = "";
+
+  document.getElementById("repoScreen").classList.add("hidden");
+  document.getElementById("fileScreen").classList.remove("hidden");
+
+  loadFiles("");
+}
+
+/* ================= LOAD FILES ================= */
+async function loadFiles(path){
+
+  const box = document.getElementById("fileList");
+  box.innerHTML = "Loading files...";
+
+  try{
+    const res = await fetch(
+      `${WORKER}?action=files&repo=${currentRepo}&path=${encodeURIComponent(path)}`
+    );
+
+    const data = await res.json();
+
+    box.innerHTML = "";
+
+    if(!data.files || data.files.length===0){
+      box.innerHTML = "No files returned";
+      return;
+    }
+
+    data.files.forEach(f=>{
+      const div = document.createElement("div");
+      div.className="item";
+
+      if(f.type==="dir"){
+        div.textContent = "📁 " + f.name;
+        div.onclick = ()=>loadFiles(f.path);
+      }else{
+        div.textContent = "📄 " + f.name;
+        div.onclick = ()=>openCode(f.path,f.name);
+      }
+
+      box.appendChild(div);
+    });
+
+  }catch(e){
+    box.innerHTML = "Failed to load files";
+  }
+}
+
+/* ================= OPEN CODE ================= */
+async function openCode(path,name){
+
+  document.getElementById("fileScreen").classList.add("hidden");
+  document.getElementById("codeScreen").classList.remove("hidden");
+
+  document.getElementById("codeTitle").textContent = name + " Code";
+
+  const res = await fetch(
+    `${WORKER}?action=code&repo=${currentRepo}&path=${encodeURIComponent(path)}`
+  );
+
+  const data = await res.json();
+
+  document.getElementById("codeView").textContent =
+    data.code || "No code returned";
+}
+
+/* ================= NAVIGATION ================= */
+function goRepos(){
+  document.getElementById("fileScreen").classList.add("hidden");
+  document.getElementById("repoScreen").classList.remove("hidden");
+}
+
+function goFiles(){
+  document.getElementById("codeScreen").classList.add("hidden");
+  document.getElementById("fileScreen").classList.remove("hidden");
+}
+
+loadRepos();
+
+</script>
+
+</body>
+</html>
