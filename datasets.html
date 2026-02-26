@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>BharatVerse Datasets</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:system-ui;
+}
+
+body{
+background:#ffffff;
+color:#0b1220;
+}
+
+/* ===== TOP HEADER ===== */
+
+.header-frame{
+max-width:1100px;
+margin:20px auto;
+padding:22px;
+border-radius:24px;
+border:2px solid #2f7cff;
+box-shadow:0 0 35px rgba(47,124,255,.6);
+text-align:center;
+font-size:32px;
+font-weight:800;
+}
+
+/* ===== MAIN FRAME ===== */
+
+.main-frame{
+max-width:1100px;
+margin:20px auto;
+padding:22px;
+border-radius:24px;
+border:2px solid #2f7cff;
+box-shadow:0 0 40px rgba(47,124,255,.5);
+min-height:65vh;
+}
+
+/* ===== DATASET CARD ===== */
+
+.dataset{
+padding:18px;
+margin-bottom:16px;
+border-radius:16px;
+border:1.5px solid #2f7cff;
+box-shadow:0 0 25px rgba(47,124,255,.25);
+}
+
+.title{
+font-size:18px;
+font-weight:700;
+margin-bottom:6px;
+}
+
+.meta{
+font-size:13px;
+opacity:.8;
+margin-bottom:10px;
+}
+
+/* ===== BUTTONS ===== */
+
+.btn{
+padding:8px 16px;
+border-radius:20px;
+border:2px solid #2f7cff;
+background:white;
+color:#2f7cff;
+font-weight:700;
+cursor:pointer;
+margin-right:10px;
+box-shadow:0 0 15px rgba(47,124,255,.5);
+}
+
+.btn:hover{
+background:#2f7cff;
+color:white;
+}
+
+/* ===== NEXT BUTTON ===== */
+
+.next{
+margin-top:20px;
+padding:12px 40px;
+border-radius:24px;
+border:2px solid #2f7cff;
+background:white;
+font-weight:700;
+cursor:pointer;
+box-shadow:0 0 20px rgba(47,124,255,.6);
+}
+
+/* ===== FILE SCREEN ===== */
+
+.hidden{
+display:none;
+}
+
+.file{
+padding:12px;
+border-bottom:1px solid #ddd;
+cursor:pointer;
+}
+
+.file:hover{
+background:#f2f7ff;
+}
+
+</style>
+</head>
+<body>
+
+
+<!-- HEADER -->
+<div class="header-frame">
+BharatVerse Datasets
+</div>
+
+
+<!-- DATASET SCREEN -->
+<div id="datasetScreen" class="main-frame">
+
+<div id="datasetList">
+Loading datasets...
+</div>
+
+<div style="text-align:center;">
+<button class="next" onclick="nextPage()">Next Page</button>
+</div>
+
+</div>
+
+
+<!-- FILE SCREEN -->
+<div id="fileScreen" class="main-frame hidden">
+
+<div style="margin-bottom:20px;">
+<button class="btn" onclick="goBack()">← Back</button>
+</div>
+
+<div id="fileList">
+Loading files...
+</div>
+
+</div>
+
+
+<script>
+
+
+const WORKER =
+"https://ancient-flower-9481.darmindark691.workers.dev";
+
+
+let page = 1;
+const limit = 20;
+let currentDataset = "";
+
+
+/* ================= LOAD DATASETS ================= */
+
+async function loadDatasets(){
+
+const res =
+await fetch(`${WORKER}?action=datasets&page=${page}`);
+
+const data = await res.json();
+
+const box = document.getElementById("datasetList");
+
+box.innerHTML="";
+
+data.datasets.forEach(d=>{
+
+const div=document.createElement("div");
+
+div.className="dataset";
+
+div.innerHTML=`
+
+<div class="title">${d.title}</div>
+
+<div class="meta">
+Dataset ID: ${d.id}<br>
+Size: ${(d.size/1024/1024).toFixed(2)} MB<br>
+Last Updated: ${d.lastUpdated}
+</div>
+
+<button class="btn"
+onclick="previewDataset('${d.id}')">
+Preview
+</button>
+
+<button class="btn"
+onclick="downloadDataset('${d.id}')">
+Download
+</button>
+
+`;
+
+box.appendChild(div);
+
+});
+
+}
+
+
+/* ================= PREVIEW ================= */
+
+async function previewDataset(id){
+
+currentDataset=id;
+
+document.getElementById("datasetScreen")
+.classList.add("hidden");
+
+document.getElementById("fileScreen")
+.classList.remove("hidden");
+
+const res =
+await fetch(`${WORKER}?action=files&dataset=${id}`);
+
+const data = await res.json();
+
+const box =
+document.getElementById("fileList");
+
+box.innerHTML="";
+
+data.files.forEach(f=>{
+
+const div=document.createElement("div");
+
+div.className="file";
+
+div.innerHTML=`
+${f.name}
+<br>
+Size: ${(f.size/1024/1024).toFixed(2)} MB
+
+<button class="btn"
+onclick="downloadFile('${id}','${f.name}')">
+Download File
+</button>
+`;
+
+box.appendChild(div);
+
+});
+
+}
+
+
+/* ================= DOWNLOAD ================= */
+
+function downloadDataset(id){
+
+window.open(
+`${WORKER}?action=download&dataset=${id}`,
+"_blank"
+);
+
+}
+
+
+function downloadFile(dataset,file){
+
+window.open(
+`${WORKER}?action=download&dataset=${dataset}&file=${file}`,
+"_blank"
+);
+
+}
+
+
+/* ================= NEXT PAGE ================= */
+
+function nextPage(){
+
+page++;
+
+loadDatasets();
+
+}
+
+
+/* ================= BACK ================= */
+
+function goBack(){
+
+document.getElementById("fileScreen")
+.classList.add("hidden");
+
+document.getElementById("datasetScreen")
+.classList.remove("hidden");
+
+}
+
+
+/* INIT */
+
+loadDatasets();
+
+
+</script>
+
+</body>
+</html>
